@@ -1,3 +1,10 @@
+/**
+ *  \file DataSet.hpp
+ *
+ *  \brief In this file is defined the class which contains the information
+ *  corresponding to the data set employed for training the algorithm.
+ */
+
 #ifndef DataSet_HH
 #define DataSet_HH
 
@@ -14,17 +21,11 @@
 
 #include <scarf/Sample.cuh>
 
-/**
- *  @file DataSet.hpp
- *
- *  @brief In this file is defined the class which contains the information
- *  corresponding to the data set employed for training the algorithm.
- */
 namespace scarf {
 
 
     /**
-     *  @brief Contains the information referring the training set.
+     *  \brief Contains the information referring the training set.
      */
     template <class SampleT>
     class DataSet 
@@ -34,56 +35,56 @@ namespace scarf {
 
 
         /**
-         *  @brief This class is designed to actually contain a subset of the
+         *  \brief This class is designed to actually contain a subset of the
          *  entire data set to be employed in the training of the random forest.
          */
         class TrainingSet
         {
             public:
-                /** @brief Pointer to the Training Set.*/
+                /** \brief Pointer to the Training Set.*/
                 typedef boost::shared_ptr<TrainingSet> Ptr;
 
             public:
-                /** @brief Constructor.*/
+                /** \brief Constructor.*/
                 TrainingSet(size_t nSamples);
 
-                /** @brief Destructor.*/
+                /** \brief Destructor.*/
                 ~TrainingSet() {}
 
-                /** @brief Easy access to the training samples.*/
+                /** \brief Easy access to the training samples.*/
                 SampleT& operator[](size_t idx);
 
-                /** @brief Training data */
+                /** \brief Training data */
                 thrust::host_vector<SampleT> trainingData;
 
-                /** @brief Number of the samples in the training set */
+                /** \brief Number of the samples in the training set */
                 size_t size;
         };
 
 
         public:
-            /** @brief Constructor.*/
+            /** \brief Constructor.*/
             DataSet() : nSamples(0) {}
 
-            /** @brief Destructor.*/
+            /** \brief Destructor.*/
             ~DataSet() {}
 
             /** 
-             *  @brief Get random subset of the training data to train each tree.
+             *  \brief Get random subset of the training data to train each tree.
              *
-             *  @param n Number of samples to get.
+             *  \param n Number of samples to get.
              */
             typename TrainingSet::Ptr subsample(const size_t n,
                     std::vector<size_t> *oobIdx);
 
 
             /**
-             *  @brief Push back samples to the data set.
+             *  \brief Push back samples to the data set.
              *
              *  This function pushes a new sample to the vector containing the
              *  data samples.
              *
-             *  @param sample The sample to be added in the vector.
+             *  \param sample The sample to be added in the vector.
              */
             void push_back(SampleT x)
             {
@@ -93,29 +94,29 @@ namespace scarf {
 
 
             /**
-             *  @brief Load the data from CSV file.
+             *  \brief Load the data from CSV file.
              *
              *  TODO: Either delete this function or do it right.
              *
              *  At this moment this function is only for testing purposes.
              *
-             *  @param filename CSV file name.
-             *  @param ns Number of samples to read.
-             *  @param nf Number of features per sample.
+             *  \param filename CSV file name.
+             *  \param ns Number of samples to read.
+             *  \param nf Number of features per sample.
              */
             void loadCSVFile(std::string filename, size_t ns, size_t nf);
 
-            /** @brief Operator to easy access on the samples */
+            /** \brief Operator to easy access on the samples */
             SampleT& operator[](size_t idx)
             {
                 return data_samples[idx];
             }
 
-            /** @brief Total Number of the Training Samples.*/
+            /** \brief Total Number of the Training Samples.*/
             size_t nSamples;
 
         private:
-            /** @brief Vector of Training Samples.*/
+            /** \brief Vector of Training Samples.*/
             std::vector<SampleT> data_samples;
     };
 
